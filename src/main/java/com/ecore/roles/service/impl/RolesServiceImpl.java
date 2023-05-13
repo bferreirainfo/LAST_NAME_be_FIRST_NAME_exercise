@@ -17,7 +17,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 @Service
 @RequiredArgsConstructor
 public class RolesServiceImpl implements RolesService {
@@ -47,8 +46,4 @@ public class RolesServiceImpl implements RolesService {
         return roleRepository.findAll();
     }
 
-    private Role getDefaultRole() {
-        return roleRepository.findByName(DEFAULT_ROLE)
-                .orElseThrow(() -> new IllegalStateException("Default role is not configured"));
-    }
 }
