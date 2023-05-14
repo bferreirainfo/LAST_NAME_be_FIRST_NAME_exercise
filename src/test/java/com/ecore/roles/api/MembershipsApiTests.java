@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
@@ -166,7 +167,7 @@ public class MembershipsApiTests {
         mockGetTeamById(mockServer, expectedMembership.getTeamId(), ORDINARY_CORAL_LYNX_TEAM());
 
         return createMembership(expectedMembership)
-                .statusCode(201)
+                .statusCode(HttpStatus.OK.value())
                 .extract().as(MembershipDto.class);
     }
 

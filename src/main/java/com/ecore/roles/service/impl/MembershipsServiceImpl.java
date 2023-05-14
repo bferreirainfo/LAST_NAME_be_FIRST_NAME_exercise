@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.ecore.roles.exception.InvalidArgumentException;
+import com.ecore.roles.exception.ResourceExistsException;
 import com.ecore.roles.exception.ResourceNotFoundException;
 import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
@@ -27,18 +28,16 @@ public class MembershipsServiceImpl implements MembershipsService {
 
     @Override
     public Membership assignRoleToMembership(@NonNull Membership membership) {
-        UUID roleId = ofNullable(membership.getRole()).map(Role::getId)
-                .orElseThrow(() -> new InvalidArgumentException(Role.class));
+    	  UUID roleId = ofNullable(membership.getRole()).map(Role::getId)
+                  .orElseThrow(() -> new InvalidArgumentException(Role.class));
 
-        Role role = roleRepository.findById(roleId)
-                .orElseThrow(() -> new ResourceNotFoundException(Role.class, roleId));
+          if (membershipRepository.findByUserIdAndTeamId(membership.getUserId(), membership.getTeamId())
+                  .isPresent()) {
+              throw new ResourceExistsException(Membership.class);
+          }
 
-        Membership savedMembership = membershipRepository
-                .findByUserIdAndTeamId(membership.getUserId(), membership.getTeamId())
-                .orElseThrow(() -> new ResourceNotFoundException(Membership.class, membership.getTeamId()));
-        savedMembership.setRole(role);
-
-        return membershipRepository.save(savedMembership);
+          roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException(Role.class, roleId));
+          return membershipRepository.save(membership);
     }
 
     @Override
