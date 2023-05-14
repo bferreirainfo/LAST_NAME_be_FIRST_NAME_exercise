@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
+import static com.ecore.roles.constants.ValidationConstants.TEAM_NOT_FOUND;
 import static com.ecore.roles.utils.MockUtils.mockGetTeamById;
 import static com.ecore.roles.utils.RestAssuredHelper.createMembership;
 import static com.ecore.roles.utils.RestAssuredHelper.getMemberships;
@@ -24,8 +25,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MembershipsApiTests {
-
-    
 	
 	private final MembershipRepository membershipRepository;
     private final RestTemplate restTemplate;
@@ -123,7 +122,7 @@ public class MembershipsApiTests {
         mockGetTeamById(mockServer, expectedMembership.getTeamId(), null);
 
         createMembership(expectedMembership)
-                .validate(404, format(ValidationConstants.TEAM_NOT_FOUND, expectedMembership.getTeamId()));
+                .validate(404, format(TEAM_NOT_FOUND, expectedMembership.getTeamId()));
     }
 
     @Test
@@ -170,7 +169,7 @@ public class MembershipsApiTests {
         mockGetTeamById(mockServer, expectedMembership.getTeamId(), ORDINARY_CORAL_LYNX_TEAM());
 
         return createMembership(expectedMembership)
-                .statusCode(HttpStatus.OK.value())
+                .statusCode(HttpStatus.CREATED.value())
                 .extract().as(MembershipDto.class);
     }
 

@@ -5,7 +5,7 @@ public class RestConstants {
 	//Mappings
 	public static final String V1_ROLES_MEMBERSHIPS = "/v1/roles/memberships";
 	public static final String V1_ROLES_MEMBERSHIPS_SEARCH = "/v1/roles/memberships/search";
-	public static final String V1_ROLES_SEARCH = "/v1/roles/search";
+	public static final String V1_ROLES_FIND = "/v1/roles/search";
 	public static final String V1_ROLES_ROLE_ID = "/v1/roles/{roleId}";
 	public static final String V1_ROLES = "/v1/roles";
 	public static final String V1_USERS = "/v1/users";

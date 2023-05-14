@@ -23,7 +23,7 @@ public class RolesServiceImpl implements RolesService {
     private final RoleRepository roleRepository;
 
     @Override
-    public Role CreateRole(@NonNull Role role) {
+    public Role createRole(@NonNull Role role) {
         if (roleRepository.findByName(role.getName()).isPresent()) {
             throw new ResourceExistsException(Role.class);
         }
@@ -31,13 +31,13 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
-    public Role GetRole(@NonNull UUID roleID) {
+    public Role getRole(@NonNull UUID roleID) {
         return roleRepository.findById(roleID)
                 .orElseThrow(() -> new ResourceNotFoundException(Role.class, roleID));
     }
 
     @Override
-    public List<Role> GetRoles() {
+    public List<Role> getRoles() {
         return roleRepository.findAll();
     }
 

@@ -15,6 +15,7 @@ import org.hamcrest.Matchers;
 
 import java.util.UUID;
 
+import static com.ecore.roles.constants.RestConstants.V1_ROLES_FIND;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.http.ContentType.JSON;
@@ -58,7 +59,7 @@ public class RestAssuredHelper {
                 .queryParam("teamMemberId", userId)
                 .queryParam("teamId", teamId)
                 .when()
-                .get(RestConstants.V1_ROLES_SEARCH)
+                .get(V1_ROLES_FIND)
                 .then());
     }
 
