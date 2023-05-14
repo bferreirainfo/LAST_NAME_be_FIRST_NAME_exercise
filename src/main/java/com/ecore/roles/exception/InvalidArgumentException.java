@@ -8,8 +8,8 @@ public class InvalidArgumentException extends RuntimeException {
         super(format("Invalid '%s' object", resource.getSimpleName()));
     }
 
-	public InvalidArgumentException(String message) {
-		super(message);
-	}
-    
+    public InvalidArgumentException(String message) {
+        super(message);
+    }
+
 }

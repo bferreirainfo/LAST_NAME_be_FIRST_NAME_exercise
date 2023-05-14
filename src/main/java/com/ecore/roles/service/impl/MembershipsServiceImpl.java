@@ -5,13 +5,11 @@ import static java.util.Optional.ofNullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.ecore.roles.client.model.Team;
-import com.ecore.roles.constants.ValidationConstants;
 import com.ecore.roles.exception.InvalidArgumentException;
 import com.ecore.roles.exception.ResourceExistsException;
 import com.ecore.roles.exception.ResourceNotFoundException;
@@ -28,32 +26,32 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MembershipsServiceImpl implements MembershipsService {
-	
-	private final MembershipRepository membershipRepository;
+
+    private final MembershipRepository membershipRepository;
     private final RoleRepository roleRepository;
     private final TeamsService teamsService;
 
     @Override
     public Membership assignRoleToMembership(@NonNull Membership membership) {
-    	  UUID roleId = ofNullable(membership.getRole()).map(Role::getId)
-                  .orElseThrow(() -> new InvalidArgumentException(Role.class));
+        UUID roleId = ofNullable(membership.getRole()).map(Role::getId)
+                .orElseThrow(() -> new InvalidArgumentException(Role.class));
 
-          if (membershipRepository.findByUserIdAndTeamId(membership.getUserId(), membership.getTeamId())
-                  .isPresent()) {
-              throw new ResourceExistsException(Membership.class);
-          }
+        if (membershipRepository.findByUserIdAndTeamId(membership.getUserId(), membership.getTeamId())
+                .isPresent()) {
+            throw new ResourceExistsException(Membership.class);
+        }
 
-          roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException(Role.class, roleId));
-          
-          Team team = ofNullable(teamsService.getTeam(membership.getTeamId()))
-        		  		.orElseThrow(()-> new ResourceNotFoundException(Team.class, membership.getTeamId()));
-          List<UUID> teamMemberIds = ofNullable(team.getTeamMemberIds()).orElse(new ArrayList<>());
-          
-          if(!teamMemberIds.contains(membership.getUserId())){
-          	  throw new InvalidArgumentException(INVALID_MEMBERSHIP_OBJECT);
-          }
-		
-          return membershipRepository.save(membership);
+        roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException(Role.class, roleId));
+
+        Team team = ofNullable(teamsService.getTeam(membership.getTeamId()))
+                .orElseThrow(() -> new ResourceNotFoundException(Team.class, membership.getTeamId()));
+        List<UUID> teamMemberIds = ofNullable(team.getTeamMemberIds()).orElse(new ArrayList<>());
+
+        if (!teamMemberIds.contains(membership.getUserId())) {
+            throw new InvalidArgumentException(INVALID_MEMBERSHIP_OBJECT);
+        }
+
+        return membershipRepository.save(membership);
     }
 
     @Override

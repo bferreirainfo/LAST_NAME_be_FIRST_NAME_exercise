@@ -158,6 +158,7 @@ public class RolesApiTest {
     void shouldFailToGetRoleByUserIdAndTeamIdWhenItDoesNotExist() {
         mockGetTeamById(mockServer, UUID_1, null);
         getRole(GIANNI_USER_UUID, UUID_1)
-                .validate(404, format(ValidationConstants.ROLE_NOT_FOUND_FOR_USER_AND_TEAM, GIANNI_USER_UUID, UUID_1));
+                .validate(404, format(ValidationConstants.ROLE_NOT_FOUND_FOR_USER_AND_TEAM, GIANNI_USER_UUID,
+                        UUID_1));
     }
 }

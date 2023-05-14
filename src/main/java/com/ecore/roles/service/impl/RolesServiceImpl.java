@@ -23,9 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RolesServiceImpl implements RolesService {
 
-    
-
-	public static final String DEFAULT_ROLE = "Developer";
+    public static final String DEFAULT_ROLE = "Developer";
 
     private final RoleRepository roleRepository;
     private final MembershipRepository membershipRepository;
@@ -49,11 +47,12 @@ public class RolesServiceImpl implements RolesService {
         return roleRepository.findAll();
     }
 
-	@Override
-	public Role getRoleByUserIdAndTeamID(UUID id, UUID teamID) {
-		Membership membership = membershipRepository.findByUserIdAndTeamId(id, teamID)
-				.orElseThrow(() -> new ResourceNotFoundException(format(ROLE_NOT_FOUND_FOR_USER_AND_TEAM, id, teamID)));
-		return membership.getRole();
-	}
+    @Override
+    public Role getRoleByUserIdAndTeamID(UUID id, UUID teamID) {
+        Membership membership = membershipRepository.findByUserIdAndTeamId(id, teamID)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        format(ROLE_NOT_FOUND_FOR_USER_AND_TEAM, id, teamID)));
+        return membership.getRole();
+    }
 
 }

@@ -21,7 +21,7 @@ public class DefaultExceptionHandler {
     public ResponseEntity<ErrorResponse> handle(ResourceExistsException exception) {
         return createResponse(400, exception.getMessage());
     }
-    
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handle(InvalidArgumentException exception) {
         return createResponse(400, exception.getMessage());

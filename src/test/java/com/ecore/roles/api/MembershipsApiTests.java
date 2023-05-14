@@ -25,8 +25,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MembershipsApiTests {
-	
-	private final MembershipRepository membershipRepository;
+
+    private final MembershipRepository membershipRepository;
     private final RestTemplate restTemplate;
 
     private MockRestServiceServer mockServer;

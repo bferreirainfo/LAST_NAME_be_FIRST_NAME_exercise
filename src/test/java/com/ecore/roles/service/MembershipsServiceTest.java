@@ -45,13 +45,14 @@ class MembershipsServiceTest {
         Membership expectedMembership = DEFAULT_MEMBERSHIP();
         when(roleRepository.findById(expectedMembership.getRole().getId()))
                 .thenReturn(Optional.ofNullable(DEVELOPER_ROLE()));
-        
+
         when(membershipRepository.findByUserIdAndTeamId(expectedMembership.getUserId(),
                 expectedMembership.getTeamId()))
                         .thenReturn(Optional.empty());
-        
-        when(teamsService.getTeam(expectedMembership.getTeamId())).thenReturn(TestData.ORDINARY_CORAL_LYNX_TEAM());
-        
+
+        when(teamsService.getTeam(expectedMembership.getTeamId()))
+                .thenReturn(TestData.ORDINARY_CORAL_LYNX_TEAM());
+
         when(membershipRepository
                 .save(expectedMembership))
                         .thenReturn(expectedMembership);

@@ -25,9 +25,8 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping(value = V1_USERS)
 public class UsersRestController implements UsersApi {
-	
-	
-	private final UsersService usersService;
+
+    private final UsersService usersService;
 
     @Override
     @GetMapping(

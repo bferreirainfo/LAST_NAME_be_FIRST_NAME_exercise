@@ -22,7 +22,7 @@ import static io.restassured.http.ContentType.JSON;
 
 public class RestAssuredHelper {
 
-	public static void setUp(int port) {
+    public static void setUp(int port) {
         RestAssured.reset();
         RestAssured.defaultParser = Parser.JSON;
         RestAssured.baseURI = "http://localhost:" + port;

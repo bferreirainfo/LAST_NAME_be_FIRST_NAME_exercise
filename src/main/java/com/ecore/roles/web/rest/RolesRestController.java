@@ -56,13 +56,14 @@ public class RolesRestController implements RolesApi {
                 .status(200)
                 .body(fromModel(rolesService.getRole(roleId)));
     }
-    
+
     @Override
     @GetMapping(
-    		path = "/search",
+            path = "/search",
             produces = {"application/json"})
     public ResponseEntity<RoleDto> searchRole(
-    		@RequestParam UUID userID, @RequestParam UUID teamID) {
+            @RequestParam UUID userID,
+            @RequestParam UUID teamID) {
         return ResponseEntity
                 .status(200)
                 .body(fromModel(rolesService.getRoleByUserIdAndTeamID(userID, teamID)));
