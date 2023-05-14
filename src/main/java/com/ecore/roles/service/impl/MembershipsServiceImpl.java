@@ -24,18 +24,20 @@ public class MembershipsServiceImpl implements MembershipsService {
 
     private final MembershipRepository membershipRepository;
     private final RoleRepository roleRepository;
-    
+
     @Override
     public Membership assignRoleToMembership(@NonNull Membership membership) {
         UUID roleId = ofNullable(membership.getRole()).map(Role::getId)
                 .orElseThrow(() -> new InvalidArgumentException(Role.class));
 
-        Role role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException(Role.class, roleId));
-        
-        Membership savedMembership = membershipRepository.findByUserIdAndTeamId(membership.getUserId(), membership.getTeamId())
-        												 .orElseThrow(() -> new ResourceNotFoundException(Membership.class, membership.getTeamId()));        
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new ResourceNotFoundException(Role.class, roleId));
+
+        Membership savedMembership = membershipRepository
+                .findByUserIdAndTeamId(membership.getUserId(), membership.getTeamId())
+                .orElseThrow(() -> new ResourceNotFoundException(Membership.class, membership.getTeamId()));
         savedMembership.setRole(role);
-        
+
         return membershipRepository.save(savedMembership);
     }
 
