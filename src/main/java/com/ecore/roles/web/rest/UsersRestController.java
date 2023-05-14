@@ -1,5 +1,8 @@
 package com.ecore.roles.web.rest;
 
+import static com.ecore.roles.constants.RestConstants.APPLICATION_JSON;
+import static com.ecore.roles.constants.RestConstants.USER_ID;
+import static com.ecore.roles.constants.RestConstants.V1_USERS;
 import static com.ecore.roles.web.dto.UserDto.fromModel;
 
 import java.util.List;
@@ -20,14 +23,15 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/v1/users")
+@RequestMapping(value = V1_USERS)
 public class UsersRestController implements UsersApi {
-
-    private final UsersService usersService;
+	
+	
+	private final UsersService usersService;
 
     @Override
     @GetMapping(
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON})
     public ResponseEntity<List<UserDto>> getUsers() {
         return ResponseEntity
                 .status(200)
@@ -38,8 +42,8 @@ public class UsersRestController implements UsersApi {
 
     @Override
     @GetMapping(
-            path = "/{userId}",
-            produces = {"application/json"})
+            path = USER_ID,
+            produces = {APPLICATION_JSON})
     public ResponseEntity<UserDto> getUser(
             @PathVariable UUID userId) {
         return ResponseEntity

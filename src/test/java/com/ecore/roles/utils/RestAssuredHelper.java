@@ -1,5 +1,6 @@
 package com.ecore.roles.utils;
 
+import com.ecore.roles.constants.RestConstants;
 import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.web.dto.MembershipDto;
@@ -20,7 +21,7 @@ import static io.restassured.http.ContentType.JSON;
 
 public class RestAssuredHelper {
 
-    public static void setUp(int port) {
+	public static void setUp(int port) {
         RestAssured.reset();
         RestAssured.defaultParser = Parser.JSON;
         RestAssured.baseURI = "http://localhost:" + port;
@@ -34,13 +35,13 @@ public class RestAssuredHelper {
         return sendRequest(givenNullableBody(RoleDto.fromModel(role))
                 .contentType(JSON)
                 .when()
-                .post("/v1/roles")
+                .post(RestConstants.V1_ROLES)
                 .then());
     }
 
     public static EcoreValidatableResponse getRoles() {
         return sendRequest(when()
-                .get("/v1/roles")
+                .get(RestConstants.V1_ROLES)
                 .then());
     }
 
@@ -48,7 +49,7 @@ public class RestAssuredHelper {
         return sendRequest(given()
                 .pathParam("roleId", roleId)
                 .when()
-                .get("/v1/roles/{roleId}")
+                .get(RestConstants.V1_ROLES_ROLE_ID)
                 .then());
     }
 
@@ -57,7 +58,7 @@ public class RestAssuredHelper {
                 .queryParam("teamMemberId", userId)
                 .queryParam("teamId", teamId)
                 .when()
-                .get("/v1/roles/search")
+                .get(RestConstants.V1_ROLES_SEARCH)
                 .then());
     }
 
@@ -65,7 +66,7 @@ public class RestAssuredHelper {
         return sendRequest(givenNullableBody(MembershipDto.fromModel(membership))
                 .contentType(JSON)
                 .when()
-                .post("/v1/roles/memberships")
+                .post(RestConstants.V1_ROLES_MEMBERSHIPS)
                 .then());
     }
 
@@ -73,7 +74,7 @@ public class RestAssuredHelper {
         return sendRequest(given()
                 .queryParam("roleId", roleId)
                 .when()
-                .get("/v1/roles/memberships/search")
+                .get(RestConstants.V1_ROLES_MEMBERSHIPS_SEARCH)
                 .then());
     }
 

@@ -1,5 +1,6 @@
 package com.ecore.roles.api;
 
+import com.ecore.roles.constants.ValidationConstants;
 import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.repository.MembershipRepository;
@@ -24,7 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MembershipsApiTests {
 
-    private final MembershipRepository membershipRepository;
+    
+	
+	private final MembershipRepository membershipRepository;
     private final RestTemplate restTemplate;
 
     private MockRestServiceServer mockServer;
@@ -111,7 +114,7 @@ public class MembershipsApiTests {
         expectedMembership.setRole(Role.builder().id(UUID_1).build());
 
         createMembership(expectedMembership)
-                .validate(404, format("Role %s not found", UUID_1));
+                .validate(404, format(ValidationConstants.ROLE_NOT_FOUND, UUID_1));
     }
 
     @Test
@@ -120,7 +123,7 @@ public class MembershipsApiTests {
         mockGetTeamById(mockServer, expectedMembership.getTeamId(), null);
 
         createMembership(expectedMembership)
-                .validate(404, format("Team %s not found", expectedMembership.getTeamId()));
+                .validate(404, format(ValidationConstants.TEAM_NOT_FOUND, expectedMembership.getTeamId()));
     }
 
     @Test
