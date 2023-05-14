@@ -1,5 +1,6 @@
 package com.ecore.roles.api;
 
+import com.ecore.roles.constants.ValidationConstants;
 import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.repository.RoleRepository;
@@ -157,6 +158,6 @@ public class RolesApiTest {
     void shouldFailToGetRoleByUserIdAndTeamIdWhenItDoesNotExist() {
         mockGetTeamById(mockServer, UUID_1, null);
         getRole(GIANNI_USER_UUID, UUID_1)
-                .validate(404, format("Team %s not found", UUID_1));
+                .validate(404, format(ValidationConstants.ROLE_NOT_FOUND_FOR_USER_AND_TEAM, GIANNI_USER_UUID, UUID_1));
     }
 }

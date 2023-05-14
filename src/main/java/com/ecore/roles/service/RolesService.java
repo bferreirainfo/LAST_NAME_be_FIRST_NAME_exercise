@@ -10,7 +10,9 @@ public interface RolesService {
     Role createRole(Role role);
 
     Role getRole(UUID id);
-
+    
     List<Role> getRoles();
+    
+    Role getRoleByUserIdAndTeamID(UUID userID, UUID teamID);
 
 }

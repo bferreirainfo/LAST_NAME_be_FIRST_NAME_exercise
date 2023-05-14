@@ -54,10 +54,10 @@ public class RestAssuredHelper {
                 .then());
     }
 
-    public static EcoreValidatableResponse getRole(UUID userId, UUID teamId) {
+    public static EcoreValidatableResponse getRole(UUID userID, UUID teamID) {
         return sendRequest(given()
-                .queryParam("teamMemberId", userId)
-                .queryParam("teamId", teamId)
+                .queryParam("userID", userID)
+                .queryParam("teamID", teamID)
                 .when()
                 .get(V1_ROLES_FIND)
                 .then());
