@@ -16,4 +16,6 @@ public interface RolesApi {
     ResponseEntity<RoleDto> getRole(
             UUID roleId);
 
+	ResponseEntity<RoleDto> searchRole(UUID roleId, UUID teamId);
+
 }
