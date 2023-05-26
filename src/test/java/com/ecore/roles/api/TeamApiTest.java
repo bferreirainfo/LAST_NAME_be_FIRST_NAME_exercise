@@ -25,27 +25,27 @@ import com.ecore.roles.web.dto.TeamDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TeamApiTest {
-	
-	@Autowired
+
+    @Autowired
     private RestTemplate restTemplate;
 
     private MockRestServiceServer mockServer;
 
     @LocalServerPort
     private int port;
-	
+
     @BeforeEach
     void setUp() {
         mockServer = MockRestServiceServer.createServer(restTemplate);
         RestAssuredHelper.setUp(port);
     }
-    
+
     @Test
     void shouldGetAllTeams() {
         Team expectedTeam = ORDINARY_CORAL_LYNX_TEAM();
 
         mockGetTeams(mockServer, expectedTeam);
-        
+
         TeamDto[] actualTeams = getTeams()
                 .statusCode(200)
                 .extract().as(TeamDto[].class);
@@ -53,11 +53,11 @@ public class TeamApiTest {
         assertThat(actualTeams.length).isEqualTo(1);
         assertThat(actualTeams[0]).isEqualTo(TeamDto.fromModel(expectedTeam));
     }
-    
+
     @Test
     void shouldGetAllTeamsButReturnsEmptyList() {
         mockGetTeams(mockServer, null);
-        
+
         TeamDto[] actualTeams = getTeams()
                 .statusCode(200)
                 .extract().as(TeamDto[].class);
@@ -67,20 +67,20 @@ public class TeamApiTest {
 
     @Test
     void shouldGetTeamById() {
-    	Team expectedTeam = ORDINARY_CORAL_LYNX_TEAM();
-		mockGetTeamById(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, expectedTeam);
-        
+        Team expectedTeam = ORDINARY_CORAL_LYNX_TEAM();
+        mockGetTeamById(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, expectedTeam);
+
         getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID)
-	        .statusCode(200)
-	        .body("id", equalTo(expectedTeam.getId().toString()))
-	        .body("name", equalTo(expectedTeam.getName()));
+                .statusCode(200)
+                .body("id", equalTo(expectedTeam.getId().toString()))
+                .body("name", equalTo(expectedTeam.getName()));
     }
-    
+
     @Test
     void shouldFailToGetTeamById() {
-    	mockGetTeamById(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, null);
+        mockGetTeamById(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, null);
         getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID)
-        		.validate(404, format(ValidationConstants.TEAM_NOT_FOUND, ORDINARY_CORAL_LYNX_TEAM_UUID));
+                .validate(404, format(ValidationConstants.TEAM_NOT_FOUND, ORDINARY_CORAL_LYNX_TEAM_UUID));
     }
-    
+
 }

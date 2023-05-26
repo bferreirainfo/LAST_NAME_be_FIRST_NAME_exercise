@@ -90,35 +90,34 @@ public class RestAssuredHelper {
                 .get(V1_ROLES_MEMBERSHIPS_SEARCH)
                 .then());
     }
-    
+
     public static EcoreValidatableResponse getTeams() {
-    	 return sendRequest(when()
-                 .get(V1_TEAMS)
-                 .then());
+        return sendRequest(when()
+                .get(V1_TEAMS)
+                .then());
     }
-    
+
     public static EcoreValidatableResponse getTeam(UUID teamId) {
-    	return sendRequest(given()
+        return sendRequest(given()
                 .pathParam(FIELD_TEAM_ID, teamId)
                 .when()
                 .get(V1_TEAMS_TEAM_ID)
                 .then());
-   }
-    
-   public static EcoreValidatableResponse getUsers() {
-   	 return sendRequest(when()
+    }
+
+    public static EcoreValidatableResponse getUsers() {
+        return sendRequest(when()
                 .get(V1_USERS)
                 .then());
-   }
-   
-   public static EcoreValidatableResponse getUser(UUID userId) {
-	   return sendRequest(given()
-               .pathParam(FIELD_USER_ID, userId)
-               .when()
-               .get(V1_USERS_USER_ID)
-               .then());
-  } 
-    
+    }
+
+    public static EcoreValidatableResponse getUser(UUID userId) {
+        return sendRequest(given()
+                .pathParam(FIELD_USER_ID, userId)
+                .when()
+                .get(V1_USERS_USER_ID)
+                .then());
+    }
 
     private static RequestSpecification givenNullableBody(Object object) {
         RequestSpecification requestSpecification = given();

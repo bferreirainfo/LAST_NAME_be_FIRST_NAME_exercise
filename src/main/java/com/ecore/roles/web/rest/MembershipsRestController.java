@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(value = V1_ROLES_MEMBERSHIPS)
 public class MembershipsRestController implements MembershipsApi {
 
-	private final MembershipsService membershipsService;
+    private final MembershipsService membershipsService;
 
     @Override
     @PostMapping(

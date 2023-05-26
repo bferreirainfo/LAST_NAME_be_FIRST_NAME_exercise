@@ -23,8 +23,8 @@ public class UsersServiceImpl implements UsersService {
     private final UsersClient usersClient;
 
     public User getUser(UUID id) {
-    	return Optional.ofNullable(usersClient.getUser(id).getBody())
-						.orElseThrow(() -> new ResourceNotFoundException(format(USER_NOT_FOUND, id)));
+        return Optional.ofNullable(usersClient.getUser(id).getBody())
+                .orElseThrow(() -> new ResourceNotFoundException(format(USER_NOT_FOUND, id)));
     }
 
     public List<User> getUsers() {

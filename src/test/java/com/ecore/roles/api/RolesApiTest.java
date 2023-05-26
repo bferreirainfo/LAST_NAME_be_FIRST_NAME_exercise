@@ -42,9 +42,9 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RolesApiTest {
 
-	@Autowired
+    @Autowired
     private RestTemplate restTemplate;
-	@Autowired
+    @Autowired
     private RoleRepository roleRepository;
 
     private MockRestServiceServer mockServer;

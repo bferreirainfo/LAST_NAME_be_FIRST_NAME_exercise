@@ -25,37 +25,43 @@ public class MockUtils {
     private static final String BASE = "http://test.com/";
 
     private static String GetUri(String apiName) {
-		return BASE + apiName;
-	}
-    
+        return BASE + apiName;
+    }
+
     private static String GetUriById(String apiName, UUID id) {
-		return GetUri(apiName) + "/" + id;
-	}
-    
-	public static void mockGetTeams(MockRestServiceServer mockServer, Team team) {
+        return GetUri(apiName) + "/" + id;
+    }
+
+    public static void mockGetTeams(MockRestServiceServer mockServer, Team team) {
         mockGetListWithOneElement(mockServer, GetUri(API_TEAMS), team);
     }
 
     public static void mockGetTeamById(MockRestServiceServer mockServer, UUID id, Object expectedResult) {
-    	mockGet(mockServer, GetUriById(API_TEAMS, id), expectedResult);
+        mockGet(mockServer, GetUriById(API_TEAMS, id), expectedResult);
     }
-    
-	public static void mockGetUsers(MockRestServiceServer mockServer, User user) {
+
+    public static void mockGetUsers(MockRestServiceServer mockServer, User user) {
         mockGetListWithOneElement(mockServer, GetUri(API_USERS), user);
     }
-    
+
     public static void mockGetUserById(MockRestServiceServer mockServer, UUID id, Object expectedResult) {
-    	mockGet(mockServer, GetUriById(API_USERS, id), expectedResult);
+        mockGet(mockServer, GetUriById(API_USERS, id), expectedResult);
     }
 
-    private static <T> void mockGetListWithOneElement(MockRestServiceServer mockServer, String expectedUri, T oneResult) {
-    	List<T> expectedResult = oneResult != null ? List.of(oneResult) : List.of();
-		mockGet(mockServer, expectedUri, expectedResult);
-	}
+    private static <T> void mockGetListWithOneElement(
+            MockRestServiceServer mockServer,
+            String expectedUri,
+            T oneResult) {
+        List<T> expectedResult = oneResult != null ? List.of(oneResult) : List.of();
+        mockGet(mockServer, expectedUri, expectedResult);
+    }
 
-	private static <T> void mockGet(MockRestServiceServer mockServer, String expectedUri, Object expectedResult) {
-		try {
-			mockServer.expect(ExpectedCount.manyTimes(), requestTo(expectedUri))
+    private static <T> void mockGet(
+            MockRestServiceServer mockServer,
+            String expectedUri,
+            Object expectedResult) {
+        try {
+            mockServer.expect(ExpectedCount.manyTimes(), requestTo(expectedUri))
                     .andExpect(method(HttpMethod.GET))
                     .andRespond(
                             withStatus(HttpStatus.OK)
@@ -64,5 +70,5 @@ public class MockUtils {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-	}
+    }
 }

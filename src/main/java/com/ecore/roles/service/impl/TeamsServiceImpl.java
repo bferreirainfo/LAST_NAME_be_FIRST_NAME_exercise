@@ -23,9 +23,9 @@ public class TeamsServiceImpl implements TeamsService {
     private final TeamsClient teamsClient;
 
     public Team getTeam(UUID id) {
-    	return Optional.ofNullable(teamsClient.getTeam(id).getBody())
-    			.orElseThrow(() -> new ResourceNotFoundException(
-    	                format(ValidationConstants.TEAM_NOT_FOUND, id)));
+        return Optional.ofNullable(teamsClient.getTeam(id).getBody())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        format(ValidationConstants.TEAM_NOT_FOUND, id)));
     }
 
     public List<Team> getTeams() {
