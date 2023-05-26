@@ -78,6 +78,20 @@ public class RestAssuredHelper {
                 .get(RestConstants.V1_ROLES_MEMBERSHIPS_SEARCH)
                 .then());
     }
+    
+    public static EcoreValidatableResponse getTeams() {
+    	 return sendRequest(when()
+                 .get("/v1/teams")
+                 .then());
+    }
+    
+    public static EcoreValidatableResponse getTeam(UUID teamId) {
+    	return sendRequest(given()
+                .pathParam("teamId", teamId)
+                .when()
+                .get("/v1/teams/{teamId}")
+                .then());
+   }
 
     private static RequestSpecification givenNullableBody(Object object) {
         RequestSpecification requestSpecification = given();
