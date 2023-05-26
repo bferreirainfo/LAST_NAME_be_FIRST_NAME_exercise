@@ -1,6 +1,5 @@
 package com.ecore.roles.web.rest;
 
-import com.ecore.roles.constants.RestConstants;
 import com.ecore.roles.service.RolesService;
 import com.ecore.roles.web.RolesApi;
 import com.ecore.roles.web.dto.RoleDto;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.ecore.roles.constants.RestConstants.APPLICATION_JSON;
 import static com.ecore.roles.constants.RestConstants.V1_ROLES;
 import static com.ecore.roles.web.dto.RoleDto.fromModel;
 
@@ -26,8 +26,8 @@ public class RolesRestController implements RolesApi {
 
     @Override
     @PostMapping(
-            consumes = {RestConstants.APPLICATION_JSON},
-            produces = {RestConstants.APPLICATION_JSON})
+            consumes = {APPLICATION_JSON},
+            produces = {APPLICATION_JSON})
     public ResponseEntity<RoleDto> createRole(
             @Valid @RequestBody RoleDto role) {
         return ResponseEntity
@@ -37,7 +37,7 @@ public class RolesRestController implements RolesApi {
 
     @Override
     @GetMapping(
-            produces = {RestConstants.APPLICATION_JSON})
+            produces = {APPLICATION_JSON})
     public ResponseEntity<List<RoleDto>> getRoles() {
         return ResponseEntity
                 .status(200)
@@ -49,7 +49,7 @@ public class RolesRestController implements RolesApi {
     @Override
     @GetMapping(
             path = "/{roleId}",
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON})
     public ResponseEntity<RoleDto> getRole(
             @PathVariable UUID roleId) {
         return ResponseEntity
@@ -60,7 +60,7 @@ public class RolesRestController implements RolesApi {
     @Override
     @GetMapping(
             path = "/search",
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON})
     public ResponseEntity<RoleDto> searchRole(
             @RequestParam UUID userID,
             @RequestParam UUID teamID) {

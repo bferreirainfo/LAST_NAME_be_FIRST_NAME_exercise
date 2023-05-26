@@ -1,5 +1,6 @@
 package com.ecore.roles.web.rest;
 
+import static com.ecore.roles.constants.RestConstants.APPLICATION_JSON;
 import static com.ecore.roles.web.dto.TeamDto.fromModel;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class TeamsRestController implements TeamsApi {
 
     @Override
     @GetMapping(
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON})
     public ResponseEntity<List<TeamDto>> getTeams() {
         return ResponseEntity
                 .status(200)
@@ -39,7 +40,7 @@ public class TeamsRestController implements TeamsApi {
     @Override
     @GetMapping(
             path = "/{teamId}",
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON})
     public ResponseEntity<TeamDto> getTeam(
             @PathVariable UUID teamId) {
         return ResponseEntity

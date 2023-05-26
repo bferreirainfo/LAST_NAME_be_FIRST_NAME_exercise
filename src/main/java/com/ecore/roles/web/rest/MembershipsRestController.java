@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.ecore.roles.constants.RestConstants.APPLICATION_JSON;
 import static com.ecore.roles.web.dto.MembershipDto.fromModel;
 
 @RequiredArgsConstructor
@@ -25,8 +26,8 @@ public class MembershipsRestController implements MembershipsApi {
 
     @Override
     @PostMapping(
-            consumes = {"application/json"},
-            produces = {"application/json"})
+            consumes = {APPLICATION_JSON},
+            produces = {APPLICATION_JSON})
     public ResponseEntity<MembershipDto> assignRoleToMembership(
             @NotNull @Valid @RequestBody MembershipDto membershipDto) {
         Membership membership = membershipsService.assignRoleToMembership(membershipDto.toModel());
@@ -38,7 +39,7 @@ public class MembershipsRestController implements MembershipsApi {
     @Override
     @GetMapping(
             path = "/search",
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON})
     public ResponseEntity<List<MembershipDto>> getMemberships(
             @RequestParam UUID roleId) {
 
