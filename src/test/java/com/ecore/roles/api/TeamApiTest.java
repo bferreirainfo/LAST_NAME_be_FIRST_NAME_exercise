@@ -1,6 +1,6 @@
 package com.ecore.roles.api;
 
-import static com.ecore.roles.utils.MockUtils.mockGetTeam;
+import static com.ecore.roles.utils.MockUtils.mockGetTeamById;
 import static com.ecore.roles.utils.MockUtils.mockGetTeams;
 import static com.ecore.roles.utils.RestAssuredHelper.getTeam;
 import static com.ecore.roles.utils.RestAssuredHelper.getTeams;
@@ -68,7 +68,7 @@ public class TeamApiTest {
     @Test
     void shouldGetTeamById() {
     	Team expectedTeam = ORDINARY_CORAL_LYNX_TEAM();
-		mockGetTeam(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, expectedTeam);
+		mockGetTeamById(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, expectedTeam);
         
         getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID)
 	        .statusCode(200)
@@ -78,7 +78,7 @@ public class TeamApiTest {
     
     @Test
     void shouldFailToGetTeamById() {
-    	mockGetTeam(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, null);
+    	mockGetTeamById(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, null);
         getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID)
         		.validate(404, format(ValidationConstants.TEAM_NOT_FOUND, ORDINARY_CORAL_LYNX_TEAM_UUID));
     }

@@ -1,6 +1,5 @@
 package com.ecore.roles.api;
 
-import com.ecore.roles.constants.ValidationConstants;
 import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.repository.MembershipRepository;
@@ -15,6 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
+import static com.ecore.roles.constants.ValidationConstants.BAD_REQUEST;
+import static com.ecore.roles.constants.ValidationConstants.INVALID_MEMBERSHIP_OBJECT;
+import static com.ecore.roles.constants.ValidationConstants.MEMBERSHIP_ALREADY_EXISTS;
+import static com.ecore.roles.constants.ValidationConstants.ROLE_NOT_FOUND;
 import static com.ecore.roles.constants.ValidationConstants.TEAM_NOT_FOUND;
 import static com.ecore.roles.utils.MockUtils.mockGetTeamById;
 import static com.ecore.roles.utils.RestAssuredHelper.createMembership;
@@ -26,19 +29,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MembershipsApiTests {
 
-    private final MembershipRepository membershipRepository;
-    private final RestTemplate restTemplate;
+	@Autowired
+    private MembershipRepository membershipRepository;
+	@Autowired
+	private RestTemplate restTemplate;
 
     private MockRestServiceServer mockServer;
 
     @LocalServerPort
     private int port;
-
-    @Autowired
-    public MembershipsApiTests(MembershipRepository membershipRepository, RestTemplate restTemplate) {
-        this.membershipRepository = membershipRepository;
-        this.restTemplate = restTemplate;
-    }
 
     @BeforeEach
     void setUp() {
@@ -60,7 +59,7 @@ public class MembershipsApiTests {
     @Test
     void shouldFailToCreateRoleMembershipWhenBodyIsNull() {
         createMembership(null)
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
@@ -69,7 +68,7 @@ public class MembershipsApiTests {
         expectedMembership.setRole(null);
 
         createMembership(expectedMembership)
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
@@ -78,7 +77,7 @@ public class MembershipsApiTests {
         expectedMembership.setRole(Role.builder().build());
 
         createMembership(expectedMembership)
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
@@ -87,7 +86,7 @@ public class MembershipsApiTests {
         expectedMembership.setUserId(null);
 
         createMembership(expectedMembership)
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
@@ -96,7 +95,7 @@ public class MembershipsApiTests {
         expectedMembership.setTeamId(null);
 
         createMembership(expectedMembership)
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
@@ -104,7 +103,7 @@ public class MembershipsApiTests {
         createDefaultMembership();
 
         createMembership(DEFAULT_MEMBERSHIP())
-                .validate(400, "Membership already exists");
+                .validate(400, MEMBERSHIP_ALREADY_EXISTS);
     }
 
     @Test
@@ -113,7 +112,7 @@ public class MembershipsApiTests {
         expectedMembership.setRole(Role.builder().id(UUID_1).build());
 
         createMembership(expectedMembership)
-                .validate(404, format(ValidationConstants.ROLE_NOT_FOUND, UUID_1));
+                .validate(404, format(ROLE_NOT_FOUND, UUID_1));
     }
 
     @Test
@@ -131,8 +130,7 @@ public class MembershipsApiTests {
         mockGetTeamById(mockServer, expectedMembership.getTeamId(), ORDINARY_CORAL_LYNX_TEAM());
 
         createMembership(expectedMembership)
-                .validate(400,
-                        "Invalid 'Membership' object. The provided user doesn't belong to the provided team.");
+                .validate(400, INVALID_MEMBERSHIP_OBJECT);
     }
 
     @Test
@@ -161,7 +159,7 @@ public class MembershipsApiTests {
     @Test
     void shouldFailToGetAllMembershipsWhenRoleIdIsNull() {
         getMemberships(null)
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     private MembershipDto createDefaultMembership() {

@@ -16,6 +16,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
+import static com.ecore.roles.constants.ValidationConstants.BAD_REQUEST;
+import static com.ecore.roles.constants.ValidationConstants.ROLE_NOT_FOUND;
+import static com.ecore.roles.constants.ValidationConstants.ROLE_NOT_FOUND_FOR_USER_AND_TEAM;
 import static com.ecore.roles.utils.MockUtils.mockGetTeamById;
 import static com.ecore.roles.utils.RestAssuredHelper.createMembership;
 import static com.ecore.roles.utils.RestAssuredHelper.createRole;
@@ -39,19 +42,15 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RolesApiTest {
 
-    private final RestTemplate restTemplate;
-    private final RoleRepository roleRepository;
+	@Autowired
+    private RestTemplate restTemplate;
+	@Autowired
+    private RoleRepository roleRepository;
 
     private MockRestServiceServer mockServer;
 
     @LocalServerPort
     private int port;
-
-    @Autowired
-    public RolesApiTest(RestTemplate restTemplate, RoleRepository roleRepository) {
-        this.restTemplate = restTemplate;
-        this.roleRepository = roleRepository;
-    }
 
     @BeforeEach
     void setUp() {
@@ -66,7 +65,7 @@ public class RolesApiTest {
         sendRequest(when()
                 .get("/v1/role")
                 .then())
-                        .validate(404, "Not Found");
+                        .validate(404, ValidationConstants.NOT_FOUND);
     }
 
     @Test
@@ -83,25 +82,25 @@ public class RolesApiTest {
     @Test
     void shouldFailToCreateNewRoleWhenNull() {
         createRole(null)
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
     void shouldFailToCreateNewRoleWhenMissingName() {
         createRole(Role.builder().build())
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
     void shouldFailToCreateNewRoleWhenBlankName() {
         createRole(Role.builder().name("").build())
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
     void shouldFailToCreateNewRoleWhenNameAlreadyExists() {
         createRole(DEVELOPER_ROLE())
-                .validate(400, "Role already exists");
+                .validate(400, ValidationConstants.ROLE_ALREADY_EXISTS);
     }
 
     @Test
@@ -127,7 +126,7 @@ public class RolesApiTest {
     @Test
     void shouldFailToGetRoleById() {
         getRole(UUID_1)
-                .validate(404, format("Role %s not found", UUID_1));
+                .validate(404, format(ROLE_NOT_FOUND, UUID_1));
     }
 
     @Test
@@ -145,20 +144,20 @@ public class RolesApiTest {
     @Test
     void shouldFailToGetRoleByUserIdAndTeamIdWhenMissingUserId() {
         getRole(null, ORDINARY_CORAL_LYNX_TEAM_UUID)
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
     void shouldFailToGetRoleByUserIdAndTeamIdWhenMissingTeamId() {
         getRole(GIANNI_USER_UUID, null)
-                .validate(400, "Bad Request");
+                .validate(400, BAD_REQUEST);
     }
 
     @Test
     void shouldFailToGetRoleByUserIdAndTeamIdWhenItDoesNotExist() {
         mockGetTeamById(mockServer, UUID_1, null);
         getRole(GIANNI_USER_UUID, UUID_1)
-                .validate(404, format(ValidationConstants.ROLE_NOT_FOUND_FOR_USER_AND_TEAM, GIANNI_USER_UUID,
+                .validate(404, format(ROLE_NOT_FOUND_FOR_USER_AND_TEAM, GIANNI_USER_UUID,
                         UUID_1));
     }
 }

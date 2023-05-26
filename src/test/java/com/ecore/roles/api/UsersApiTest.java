@@ -1,11 +1,11 @@
 package com.ecore.roles.api;
 
-import static com.ecore.roles.utils.MockUtils.mockGetTeam;
-import static com.ecore.roles.utils.MockUtils.mockGetTeams;
-import static com.ecore.roles.utils.RestAssuredHelper.getTeam;
-import static com.ecore.roles.utils.RestAssuredHelper.getTeams;
-import static com.ecore.roles.utils.TestData.ORDINARY_CORAL_LYNX_TEAM;
-import static com.ecore.roles.utils.TestData.ORDINARY_CORAL_LYNX_TEAM_UUID;
+import static com.ecore.roles.utils.MockUtils.mockGetUserById;
+import static com.ecore.roles.utils.MockUtils.mockGetUsers;
+import static com.ecore.roles.utils.RestAssuredHelper.getUser;
+import static com.ecore.roles.utils.RestAssuredHelper.getUsers;
+import static com.ecore.roles.utils.TestData.GIANNI_USER;
+import static com.ecore.roles.utils.TestData.GIANNI_USER_UUID;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -18,10 +18,11 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
-import com.ecore.roles.client.model.Team;
+import com.ecore.roles.client.model.User;
 import com.ecore.roles.constants.ValidationConstants;
 import com.ecore.roles.utils.RestAssuredHelper;
-import com.ecore.roles.web.dto.TeamDto;
+import com.ecore.roles.utils.TestData;
+import com.ecore.roles.web.dto.UserDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UsersApiTest {
@@ -41,46 +42,46 @@ public class UsersApiTest {
     }
     
     @Test
-    void shouldGetAllTeams() {
-        Team expectedTeam = ORDINARY_CORAL_LYNX_TEAM();
+    void shouldGetAllUsers() {
+        User expectedUser = TestData.GIANNI_USER();
 
-        mockGetTeams(mockServer, expectedTeam);
+        mockGetUsers(mockServer, expectedUser);
         
-        TeamDto[] actualTeams = getTeams()
+        UserDto[] actualUsers = getUsers()
                 .statusCode(200)
-                .extract().as(TeamDto[].class);
+                .extract().as(UserDto[].class);
 
-        assertThat(actualTeams.length).isEqualTo(1);
-        assertThat(actualTeams[0]).isEqualTo(TeamDto.fromModel(expectedTeam));
+        assertThat(actualUsers.length).isEqualTo(1);
+        assertThat(actualUsers[0]).isEqualTo(UserDto.fromModel(expectedUser));
     }
     
     @Test
-    void shouldGetAllTeamsButReturnsEmptyList() {
-        mockGetTeams(mockServer, null);
+    void shouldGetAllUsersButReturnsEmptyList() {
+        mockGetUsers(mockServer, null);
         
-        TeamDto[] actualTeams = getTeams()
+        UserDto[] actualUsers = getUsers()
                 .statusCode(200)
-                .extract().as(TeamDto[].class);
+                .extract().as(UserDto[].class);
 
-        assertThat(actualTeams.length).isEqualTo(0);
+        assertThat(actualUsers.length).isEqualTo(0);
     }
 
     @Test
-    void shouldGetTeamById() {
-    	Team expectedTeam = ORDINARY_CORAL_LYNX_TEAM();
-		mockGetTeam(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, expectedTeam);
+    void shouldGetUserById() {
+    	User expectedUser = GIANNI_USER();
+		mockGetUserById(mockServer, GIANNI_USER_UUID, expectedUser);
         
-        getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID)
+		getUser(GIANNI_USER_UUID)
 	        .statusCode(200)
-	        .body("id", equalTo(expectedTeam.getId().toString()))
-	        .body("name", equalTo(expectedTeam.getName()));
+	        .body("id", equalTo(expectedUser.getId().toString()))
+	        .body("firstName", equalTo(expectedUser.getFirstName()));
     }
     
     @Test
-    void shouldFailToGetTeamById() {
-    	mockGetTeam(mockServer, ORDINARY_CORAL_LYNX_TEAM_UUID, null);
-        getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID)
-        		.validate(404, format(ValidationConstants.TEAM_NOT_FOUND, ORDINARY_CORAL_LYNX_TEAM_UUID));
+    void shouldFailToGetUserById() {
+    	mockGetUserById(mockServer, GIANNI_USER_UUID, null);
+        getUser(GIANNI_USER_UUID)
+        		.validate(404, format(ValidationConstants.USER_NOT_FOUND, GIANNI_USER_UUID));
     }
     
 }

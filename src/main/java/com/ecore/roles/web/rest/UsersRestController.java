@@ -1,7 +1,8 @@
 package com.ecore.roles.web.rest;
 
 import static com.ecore.roles.constants.RestConstants.APPLICATION_JSON;
-import static com.ecore.roles.constants.RestConstants.USER_ID;
+import static com.ecore.roles.constants.RestConstants.FIELD_USER_ID;
+import static com.ecore.roles.constants.RestConstants.PATH_USER_ID;
 import static com.ecore.roles.constants.RestConstants.V1_USERS;
 import static com.ecore.roles.web.dto.UserDto.fromModel;
 
@@ -41,10 +42,10 @@ public class UsersRestController implements UsersApi {
 
     @Override
     @GetMapping(
-            path = USER_ID,
+            path = PATH_USER_ID,
             produces = {APPLICATION_JSON})
     public ResponseEntity<UserDto> getUser(
-            @PathVariable UUID userId) {
+            @PathVariable(FIELD_USER_ID) UUID userId) {
         return ResponseEntity
                 .status(200)
                 .body(fromModel(usersService.getUser(userId)));

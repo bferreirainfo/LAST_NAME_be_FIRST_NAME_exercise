@@ -1,6 +1,9 @@
 package com.ecore.roles.web.rest;
 
 import static com.ecore.roles.constants.RestConstants.APPLICATION_JSON;
+import static com.ecore.roles.constants.RestConstants.FIELD_TEAM_ID;
+import static com.ecore.roles.constants.RestConstants.PATH_TEAM_ID;
+import static com.ecore.roles.constants.RestConstants.V1_TEAMS;
 import static com.ecore.roles.web.dto.TeamDto.fromModel;
 
 import java.util.List;
@@ -21,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/v1/teams")
+@RequestMapping(value = V1_TEAMS)
 public class TeamsRestController implements TeamsApi {
 
     private final TeamsService teamsService;
@@ -39,10 +42,10 @@ public class TeamsRestController implements TeamsApi {
 
     @Override
     @GetMapping(
-            path = "/{teamId}",
+            path = PATH_TEAM_ID,
             produces = {APPLICATION_JSON})
     public ResponseEntity<TeamDto> getTeam(
-            @PathVariable UUID teamId) {
+            @PathVariable(FIELD_TEAM_ID) UUID teamId) {
         return ResponseEntity
                 .status(200)
                 .body(fromModel(teamsService.getTeam(teamId)));
