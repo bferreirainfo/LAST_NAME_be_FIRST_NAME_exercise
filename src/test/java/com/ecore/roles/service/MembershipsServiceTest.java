@@ -102,7 +102,7 @@ class MembershipsServiceTest {
         verify(roleRepository, times(0)).getById(any());
         verify(usersService, times(0)).getUser(any());
         verify(teamsService, times(0)).getTeam(any());
-        
+
     }
 
     @Test
@@ -110,27 +110,31 @@ class MembershipsServiceTest {
         assertThrows(NullPointerException.class,
                 () -> membershipsService.getMemberships(null));
     }
-    
+
     @Test
     public void shouldGetMemberships() {
-    	Membership expectedMembership = DEFAULT_MEMBERSHIP();
-    	List<Membership> expectedResult = List.of(expectedMembership);
-		when(membershipRepository.findByRoleId(expectedMembership.getRole().getId())).thenReturn(expectedResult);
-    	
-    	List<Membership> actualResult = membershipsService.getMemberships(expectedMembership.getRole().getId());
-    	
-    	assertEquals(expectedResult, actualResult);
+        Membership expectedMembership = DEFAULT_MEMBERSHIP();
+        List<Membership> expectedResult = List.of(expectedMembership);
+        when(membershipRepository.findByRoleId(expectedMembership.getRole().getId()))
+                .thenReturn(expectedResult);
+
+        List<Membership> actualResult =
+                membershipsService.getMemberships(expectedMembership.getRole().getId());
+
+        assertEquals(expectedResult, actualResult);
     }
-    
+
     @Test
     public void shouldGetMembershipsButWithEmptyList() {
-    	Membership expectedMembership = DEFAULT_MEMBERSHIP();
-    	List<Membership> expectedResult = List.of();
-		when(membershipRepository.findByRoleId(expectedMembership.getRole().getId())).thenReturn(expectedResult);
-    	
-    	List<Membership> actualResult = membershipsService.getMemberships(expectedMembership.getRole().getId());
-    	
-    	assertEquals(expectedResult, actualResult);
+        Membership expectedMembership = DEFAULT_MEMBERSHIP();
+        List<Membership> expectedResult = List.of();
+        when(membershipRepository.findByRoleId(expectedMembership.getRole().getId()))
+                .thenReturn(expectedResult);
+
+        List<Membership> actualResult =
+                membershipsService.getMemberships(expectedMembership.getRole().getId());
+
+        assertEquals(expectedResult, actualResult);
     }
 
 }

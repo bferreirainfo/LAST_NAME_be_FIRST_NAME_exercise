@@ -80,53 +80,54 @@ class RolesServiceTest {
                 () -> rolesService.getRole(UUID_1));
         assertEquals(format(ROLE_NOT_FOUND, UUID_1), exception.getMessage());
     }
-    
+
     @Test
     void shoulGetdRoles() {
         List<Role> expectedResult = List.of(DEVOPS_ROLE(), TESTER_ROLE(), DEVELOPER_ROLE());
         when(roleRepository.findAll()).thenReturn(expectedResult);
         List<Role> actualResult = rolesService.getRoles();
-        
+
         assertEquals(actualResult, expectedResult);
     }
-    
-    
+
     @Test
     void shouldGetRoleByUserIdAndTeamId() {
-    	Membership expectedMembership = DEFAULT_MEMBERSHIP();
-    	
+        Membership expectedMembership = DEFAULT_MEMBERSHIP();
+
         when(membershipRepository.findByUserIdAndTeamId(expectedMembership.getUserId(),
                 expectedMembership.getTeamId()))
                         .thenReturn(Optional.of(expectedMembership));
-        						 
-        Role actualResult = rolesService.getRoleByUserIdAndTeamId(expectedMembership.getUserId(), expectedMembership.getTeamId());
-        
+
+        Role actualResult = rolesService.getRoleByUserIdAndTeamId(expectedMembership.getUserId(),
+                expectedMembership.getTeamId());
+
         rolesService.getRoleByUserIdAndTeamId(GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID);
-        
+
         assertEquals(actualResult, expectedMembership.getRole());
     }
-    
-    
+
     @Test
     void shouldFailToGetRoleByUserIdAndTeamIdWhenUserValuesAreNull() {
         assertThrows(NullPointerException.class,
                 () -> rolesService.getRoleByUserIdAndTeamId(null, ORDINARY_CORAL_LYNX_TEAM_UUID));
-        
+
         assertThrows(NullPointerException.class,
                 () -> rolesService.getRoleByUserIdAndTeamId(GIANNI_USER_UUID, null));
     }
-    
+
     @Test
     void shouldFailToGetRoleByUserIdAndTeamIdWhenUserIsInvalid() {
-    	Membership expectedMembership = DEFAULT_MEMBERSHIP();
-    	
+        Membership expectedMembership = DEFAULT_MEMBERSHIP();
+
         when(membershipRepository.findByUserIdAndTeamId(expectedMembership.getUserId(),
                 expectedMembership.getTeamId()))
                         .thenReturn(Optional.empty());
-        
+
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
                 () -> rolesService.getRoleByUserIdAndTeamId(GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID));
-        
-        assertEquals(format(ROLE_NOT_FOUND_FOR_USER_AND_TEAM, GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID), exception.getMessage());
+
+        assertEquals(
+                format(ROLE_NOT_FOUND_FOR_USER_AND_TEAM, GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID),
+                exception.getMessage());
     }
 }

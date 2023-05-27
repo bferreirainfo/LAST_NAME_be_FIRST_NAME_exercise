@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.ecore.roles.web.dto.MembershipDto;
 
-
 public interface MembershipsApi {
 
     ResponseEntity<MembershipDto> assignRoleToMembership(

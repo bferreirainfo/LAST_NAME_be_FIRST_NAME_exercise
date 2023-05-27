@@ -43,8 +43,7 @@ class TeamsServiceTest {
                         .body(ordinaryCoralLynxTeam));
         assertNotNull(teamsService.getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID));
     }
-    
-    
+
     @Test
     void shouldFailWhenTeamIdIsInvalid() {
         User gianniUser = GIANNI_USER();
@@ -54,22 +53,22 @@ class TeamsServiceTest {
                         .body(null));
 
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
-        	teamsService.getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID);
-    	});
-        
+            teamsService.getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID);
+        });
+
         assertEquals(exception.getMessage(), format(TEAM_NOT_FOUND, ORDINARY_CORAL_LYNX_TEAM_UUID));
     }
-    
+
     @Test
     void shouldGetTeams() {
         List<Team> expectedResult = List.of(ORDINARY_CORAL_LYNX_TEAM());
-		when(teamsClient.getTeams())
+        when(teamsClient.getTeams())
                 .thenReturn(ResponseEntity
                         .status(HttpStatus.OK)
                         .body(expectedResult));
 
         List<Team> actualResult = teamsService.getTeams();
-        
+
         assertEquals(actualResult, expectedResult);
     }
 }

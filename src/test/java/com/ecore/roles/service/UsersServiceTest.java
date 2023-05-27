@@ -42,7 +42,7 @@ class UsersServiceTest {
 
         assertNotNull(usersService.getUser(UUID_1));
     }
-    
+
     @Test
     void shouldFailWhenUserIdIsInvalid() {
         User gianniUser = GIANNI_USER();
@@ -52,22 +52,22 @@ class UsersServiceTest {
                         .body(null));
 
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
-    		usersService.getUser(UUID_1);
-    	});
-        
+            usersService.getUser(UUID_1);
+        });
+
         assertEquals(exception.getMessage(), format(USER_NOT_FOUND, UUID_1));
     }
-    
+
     @Test
     void shouldGetUsers() {
         List<User> expectedResult = List.of(GIANNI_USER());
-		when(usersClient.getUsers())
+        when(usersClient.getUsers())
                 .thenReturn(ResponseEntity
                         .status(HttpStatus.OK)
                         .body(expectedResult));
 
         List<User> actualResult = usersService.getUsers();
-        
+
         assertEquals(actualResult, expectedResult);
     }
 }

@@ -45,7 +45,7 @@ public class MembershipsServiceImpl implements MembershipsService {
 
         Team team = ofNullable(teamsService.getTeam(membership.getTeamId()))
                 .orElseThrow(() -> new ResourceNotFoundException(Team.class, membership.getTeamId()));
-        
+
         List<UUID> teamMemberIds = ofNullable(team.getTeamMemberIds()).orElse(new ArrayList<>());
 
         if (!teamMemberIds.contains(membership.getUserId())) {
