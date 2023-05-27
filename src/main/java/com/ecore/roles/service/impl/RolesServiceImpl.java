@@ -48,7 +48,7 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
-    public Role getRoleByUserIdAndTeamId(UUID id, UUID teamID) {
+    public Role getRoleByUserIdAndTeamId(@NonNull UUID id,@NonNull UUID teamID) {
         Membership membership = membershipRepository.findByUserIdAndTeamId(id, teamID)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         format(ROLE_NOT_FOUND_FOR_USER_AND_TEAM, id, teamID)));

@@ -7,6 +7,8 @@ public class ValidationConstants {
     public static final String ROLE_ALREADY_EXISTS = "Role already exists";
     public static final String ROLE_NOT_FOUND_FOR_USER_AND_TEAM =
             "Role not found fpr userID: %s and TeamID: %s ";
+    public static final String INVALID_ROLE_OBJECT =
+    		"Invalid 'Role' object";
 
     public static final String TEAM_NOT_FOUND = "Team %s not found";
     public static final String USER_NOT_FOUND = "User %s not found";

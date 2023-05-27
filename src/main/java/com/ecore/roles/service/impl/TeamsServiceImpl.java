@@ -1,5 +1,6 @@
 package com.ecore.roles.service.impl;
 
+import static com.ecore.roles.constants.ValidationConstants.TEAM_NOT_FOUND;
 import static java.lang.String.format;
 
 import java.util.List;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.ecore.roles.client.TeamsClient;
 import com.ecore.roles.client.model.Team;
-import com.ecore.roles.constants.ValidationConstants;
 import com.ecore.roles.exception.ResourceNotFoundException;
 import com.ecore.roles.service.TeamsService;
 
@@ -25,7 +25,7 @@ public class TeamsServiceImpl implements TeamsService {
     public Team getTeam(UUID id) {
         return Optional.ofNullable(teamsClient.getTeam(id).getBody())
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        format(ValidationConstants.TEAM_NOT_FOUND, id)));
+                        format(TEAM_NOT_FOUND, id)));
     }
 
     public List<Team> getTeams() {
