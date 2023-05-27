@@ -1,5 +1,4 @@
 /target/
-src/main/java/com/ecore/roles/service/impl/RolesServiceImpl.java
 .classpath
 .project
 .settings/org.eclipse.core.resources.prefs
